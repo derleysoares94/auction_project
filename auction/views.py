@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from . models import *
-from .serializer import *
+from . models import Auction
+from . serializer import AuctionSerializer
 from rest_framework.response import Response
 
-class Auction(APIView):
+class AuctionList(APIView):
     def get(self, request):
         auctions = Auction.objects.all()
         serializer = AuctionSerializer(auctions, many=True)
