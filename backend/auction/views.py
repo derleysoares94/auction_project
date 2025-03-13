@@ -21,6 +21,8 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             access_token = tokens['access']
             refresh_token = tokens['refresh']
 
+            seriliazer = UserSerializer(request.user, many=False)
+            
             res = Response()
 
             res.data = {'success':True}
@@ -79,7 +81,6 @@ class CustomTokenRefreshView(TokenRefreshView):
         except Exception as e:
             print(e)
             return Response({'refreshed': False})
-
 
 @api_view(['POST'])
 def logout(request):

@@ -1,36 +1,29 @@
-import axios from 'axios';
-import React from 'react';
+import * as React from 'react'
+import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ChakraProvider, Flex } from '@chakra-ui/react'
+import Login from './routes/login';
+import Home from './routes/home';
+import { AuthProvider } from './context/useAuth';
+import PrivateRoute from './components/private_route';
+import Register from './routes/register';
 
-class App extends React.Component {
-  state = { details: [], };
-
-  componentDidMount() {
-
-    let data;
-    axios.get('http://localhost:8000')
-    .then(res => {
-      data = res.data;
-      this.setState({
-        details: data
-      });
-    })
-    .catch(err => {});
-  }
-
-  render() {
-    return (
-      <div>
-        <header>Data renerated from Django</header>
-        <hr />
-        {this.state.details.map((output, id) => (
-          <div key={id}>
-            <h1>{output.title}</h1>
-            <p>{output.description}</p>
-          </div>
-        ))}
-      </div>
-    )
-  }
+function App() {
+  return (
+    <ChakraProvider>
+      <Flex minH='100vh' w='100%' justifyContent='center' alignItems='center'>
+        <Router>
+          <AuthProvider>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/login' element={<Login />} />
+              <Route element={<Register />} path='/register' />
+            </Routes>
+          </AuthProvider>
+        </Router>
+      </Flex>
+    </ChakraProvider>
+  );
 }
 
 export default App;
