@@ -28,7 +28,7 @@ const Login = () => {
     }
 
     return (
-        <VStack minH='500px' w='70%' maxW='400px' justifyContent='start' alignItems='start'>
+        <VStack minH='500px' w='600px' maxW='600px' justifyContent='start' alignItems='start'>
             <Text mb='20px' color='gray.700' fontSize='44px' fontWeight='bold'>Login</Text>
             <FormControl mb='20px'>
                 <FormLabel>Username</FormLabel>

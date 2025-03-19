@@ -30,7 +30,7 @@ const Home = () => {
             <Heading>Welcome back</Heading>
             <VStack>
                 {auctions.map((auction) => {
-                    return <Text>{auction.description}</Text>
+                    return <Text key={auction.id}>{auction.description}</Text>
                 })}
             </VStack>
             <Button onClick={handleLogout} colorScheme="red">Logout</Button>

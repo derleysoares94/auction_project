@@ -5,7 +5,7 @@ import { ChakraProvider, Flex } from '@chakra-ui/react'
 import Login from './routes/login';
 import Home from './routes/home';
 import { AuthProvider } from './context/useAuth';
-import PrivateRoute from './components/private_route';
+//import PrivateRoute from './components/private_route';
 import Register from './routes/register';
 
 function App() {
