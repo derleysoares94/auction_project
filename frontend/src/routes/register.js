@@ -28,7 +28,7 @@ const Register = () => {
     const [companyPassword, setCompanyPassword] = useState('');
     const [companyPasswordConfirm, setCompanyPasswordConfirm] = useState('');
 
-    const { registerUser/*, registerCompany */} = useAuth();
+    const { registerUser, registerCompany } = useAuth();
     const nav = useNavigate();
 
     const handleUserRegister = async () => {
@@ -36,7 +36,7 @@ const Register = () => {
     }
 
     const handleCompanyRegister = async () => {
-        /*await registerCompany(companyName, companyEmail, companyPassword, companyPasswordConfirm)*/
+        await registerCompany(companyName, companyEmail, companyPassword, companyPasswordConfirm)
     }
 
     const handleNavigate = () => {

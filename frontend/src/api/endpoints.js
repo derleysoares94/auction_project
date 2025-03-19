@@ -7,6 +7,7 @@ const AUCTIONS_URL = `${BASE_URL}auction/`
 const LOGOUT_URL = `${BASE_URL}logout/`
 const AUTHENTICATED_URL = `${BASE_URL}authenticated/`
 const REGISTER_URL = `${BASE_URL}register/`
+const REGISTER_COMPANY_URL = `${BASE_URL}company/register/`
 
 
 export const login = async (username, password) => {
@@ -76,4 +77,12 @@ export const authenticated_user = async () => {
 export const register = async (username, email, password) => {
     const response = await axios.post(REGISTER_URL, { username, email, password }, { withCredentials: true });
     return response.data;
-};
+}
+
+export const NewCompany = async (companyName, companyEmail, companyPassword) => {
+    const name= companyName
+    const email= companyEmail
+    const password= companyPassword
+    const response = await axios.post(REGISTER_COMPANY_URL, { name, email, password }, { withCredentials: true });
+    return response.data;
+}
