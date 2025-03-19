@@ -15,11 +15,15 @@ function App() {
         <Router>
           <AuthProvider>
             <Routes>
+              {/* TODO: Verify why using <PrivateRoute></PrivateRoute> for wrapping 
+                        and protecting the Home to not be accessed from Unauthenticated 
+                        user. 
+              */}
               <Route path='/' element={<Home />} />
               <Route path='/login' element={<Login />} />
               <Route element={<Register />} path='/register' />
             </Routes>
-          </AuthProvider>
+          </AuthProvider >
         </Router>
       </Flex>
     </ChakraProvider>

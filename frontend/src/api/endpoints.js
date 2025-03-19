@@ -12,14 +12,13 @@ const REGISTER_URL = `${BASE_URL}register/`
 export const login = async (username, password) => {
     try {
         const response = await axios.post(LOGIN_URL,
-            { username, password },  // Object shorthand for cleaner syntax
+            { username, password },   
             { withCredentials: true }  // Ensures cookies are included
         );
-        // Check if the response contains a success attribute (depends on backend response structure)
         return response.data
     } catch (error) {
         console.error("Login failed:", error);
-        return false;  // Return false or handle the error as needed
+        return false; 
     }
 }
 
