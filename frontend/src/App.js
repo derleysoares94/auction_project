@@ -7,7 +7,6 @@ import Home from './routes/home';
 import { AuthProvider } from './context/useAuth';
 //import PrivateRoute from './components/private_route';
 import Register from './routes/register';
-import Navbar from './components/navbar';
 import Layout from './components/layout';
 
 function App() {

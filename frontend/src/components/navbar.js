@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Flex, IconButton, Menu, MenuButton, MenuList, MenuItem, useDisclosure, Heading, Button } from "@chakra-ui/react";
+import { Box, Flex, IconButton, useDisclosure, Heading, Button } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 
 const Navbar = () => {
