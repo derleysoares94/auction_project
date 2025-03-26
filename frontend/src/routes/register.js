@@ -23,20 +23,11 @@ const Register = () => {
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
 
-    const [companyName, setCompanyName] = useState('');
-    const [companyEmail, setCompanyEmail] = useState('');
-    const [companyPassword, setCompanyPassword] = useState('');
-    const [companyPasswordConfirm, setCompanyPasswordConfirm] = useState('');
-
-    const { registerUser, registerCompany } = useAuth();
+    const { registerUser } = useAuth();
     const nav = useNavigate();
 
-    const handleUserRegister = async () => {
-        await registerUser(username, email, password, passwordConfirm)
-    }
-
-    const handleCompanyRegister = async () => {
-        await registerCompany(companyName, companyEmail, companyPassword, companyPasswordConfirm)
+    const handleUserRegister = async ({ username, email, password, passwordConfirm, userType }) => {
+        await registerUser(username, email, password, passwordConfirm, userType)
     }
 
     const handleNavigate = () => {
@@ -71,8 +62,7 @@ const Register = () => {
                             <FormLabel>Confirm Password</FormLabel>
                             <Input bg="white" onChange={(e) => setPasswordConfirm(e.target.value)} value={passwordConfirm} type="password" placeholder="Confirm your password" />
                         </FormControl>
-                        <Button mb="10px" colorScheme="blue" mt="20px" w="100%" onClick={handleUserRegister}>Register</Button>
-                        <Text onClick={handleNavigate} cursor='pointer' color='gray.600' fontSize='14px'>Have an account? Log In</Text>
+                        <Button mb="10px" colorScheme="blue" mt="20px" w="100%" onClick={() => handleUserRegister({username, email, password, passwordConfirm, userType: 'user'})}>Register</Button>
                     </VStack>
                 </TabPanel>
 
@@ -81,25 +71,26 @@ const Register = () => {
                     <VStack minH="500px" w="100%" maxW="800px" justifyContent="start" alignItems="start">
                         <Text mb="20px" color="gray.700" fontSize="44px" fontWeight="bold">Company Register</Text>
                         <FormControl mb="20px">
-                            <FormLabel>Company's Name</FormLabel>
-                            <Input bg="white" onChange={(e) => setCompanyName(e.target.value)} value={companyName} type="text" placeholder="Companys name" />
+                            <FormLabel>Company User Name</FormLabel>
+                            <Input bg="white" onChange={(e) => setUsername(e.target.value)} value={username} type="text" placeholder="Company user name" />
                         </FormControl>
                         <FormControl mb="20px">
                             <FormLabel>Email</FormLabel>
-                            <Input bg="white" onChange={(e) => setCompanyEmail(e.target.value)} value={companyEmail} type="email" placeholder="Companys email" />
+                            <Input bg="white" onChange={(e) => setEmail(e.target.value)} value={email} type="email" placeholder="company@example.com" />
                         </FormControl>
                         <FormControl mb="20px">
                             <FormLabel>Senha</FormLabel>
-                            <Input bg="white" onChange={(e) => setCompanyPassword(e.target.value)} value={companyPassword} type="password" placeholder="Companys password" />
+                            <Input bg="white" onChange={(e) => setPassword(e.target.value)} value={password} type="password" placeholder="Companys password" />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Confirm Password</FormLabel>
-                            <Input bg="white" onChange={(e) => setCompanyPasswordConfirm(e.target.value)} value={companyPasswordConfirm} type="password" placeholder="Confirm password" />
+                            <Input bg="white" onChange={(e) => setPasswordConfirm(e.target.value)} value={passwordConfirm} type="password" placeholder="Confirm your password" />
                         </FormControl>
-                        <Button mb="10px" colorScheme="blue" mt="20px" w="100%" onClick={handleCompanyRegister}>Register</Button>
-                        <Text onClick={handleNavigate} cursor='pointer' color='gray.600' fontSize='14px'>Have an account? Log In</Text>
+                        <Input type="hidden" name='userType' value='company' />
+                        <Button mb="10px" colorScheme="blue" mt="20px" w="100%" onClick={() => handleUserRegister({ username, email, password, passwordConfirm, userType: 'company' })}>Register</Button>
                     </VStack>
                 </TabPanel>
+                <Text onClick={handleNavigate} cursor='pointer' color='gray.600' fontSize='14px'>Have an account? Log In</Text>
             </TabPanels>
         </Tabs>
     )

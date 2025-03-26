@@ -1,12 +1,12 @@
 import axios from 'axios'
 
 const BASE_URL = 'http://127.0.0.1:8000/api/'
-const LOGIN_URL = `${BASE_URL}token/`
-const REFRESH_URL = `${BASE_URL}token/refresh/`
-const AUCTIONS_URL = `${BASE_URL}auction/`
-const LOGOUT_URL = `${BASE_URL}logout/`
-const AUTHENTICATED_URL = `${BASE_URL}authenticated/`
-const REGISTER_URL = `${BASE_URL}register/`
+const LOGIN_URL = `${BASE_URL}users/token/`
+const REFRESH_URL = `${BASE_URL}users/token/refresh/`
+const AUCTIONS_URL = `${BASE_URL}auction/auctions/`
+const LOGOUT_URL = `${BASE_URL}users/logout/`
+const AUTHENTICATED_URL = `${BASE_URL}users/authenticated/`
+const REGISTER_URL = `${BASE_URL}users/register/`
 const REGISTER_COMPANY_URL = `${BASE_URL}company/register/`
 
 
@@ -74,8 +74,8 @@ export const authenticated_user = async () => {
     return response.data
 }
 
-export const register = async (username, email, password) => {
-    const response = await axios.post(REGISTER_URL, { username, email, password }, { withCredentials: true });
+export const register = async (username, email, password, user_type) => {
+    const response = await axios.post(REGISTER_URL, { username, email, password, user_type }, { withCredentials: true });
     return response.data;
 }
 

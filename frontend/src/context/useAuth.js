@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-import { authenticated_user, login, logout, register, NewCompany } from '../api/endpoints';
+import { authenticated_user, login, logout, register } from '../api/endpoints';
 
 const AuthContext = createContext();
 
@@ -44,22 +44,10 @@ export const AuthProvider = ({ children }) => {
         nav('/login')
     }
 
-    const registerCompany = async (companyName, companyEmail, companyPassword, companyPasswordConfirm) => {
-        try {
-            if (companyPassword === companyPasswordConfirm) {
-                await NewCompany(companyName, companyEmail, companyPassword)
-                alert('Company successfully registered')
-                nav('/login')
-            }
-        } catch {
-            alert('error registering company')
-        }
-    }
-
-    const registerUser = async (username, email, password, confirm_password) => {
+    const registerUser = async (username, email, password, confirm_password, user_type) => {
         try {
             if (password === confirm_password) {
-                await register(username, email, password)
+                await register(username, email, password, user_type)
                 alert('User successfully registered')
                 nav('/login')
             }
@@ -73,7 +61,7 @@ export const AuthProvider = ({ children }) => {
     }, [window.location.pathname])
 
     return (
-        <AuthContext.Provider value={{ user, loading, loginUser, logoutUser, registerUser, registerCompany }}>
+        <AuthContext.Provider value={{ user, loading, loginUser, logoutUser, registerUser }}>
             {children}
         </AuthContext.Provider>
     );
