@@ -23,11 +23,11 @@ const Register = () => {
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
 
-    const { registerUser } = useAuth();
+    const { register_user } = useAuth();
     const nav = useNavigate();
 
     const handleUserRegister = async ({ username, email, password, passwordConfirm, userType }) => {
-        await registerUser(username, email, password, passwordConfirm, userType)
+        await register_user(username, email, password, passwordConfirm, userType)
     }
 
     const handleNavigate = () => {

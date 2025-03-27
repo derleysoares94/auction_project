@@ -16,11 +16,11 @@ const Login = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    const { loginUser } = useAuth();
+    const { login_user } = useAuth();
     const nav = useNavigate();
 
-    const handleLogin = async () => {
-        await loginUser(username, password)
+    const handleLogin = () => {
+        login_user(username, password)
     }
 
     const handleNavigate = () => {

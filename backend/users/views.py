@@ -13,15 +13,6 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def register(request):
-    serializer = UserRegistrationSerializer(data=request.data)
-    if serializer.is_valid():
-        user = serializer.save()
-        return Response({"message": "User registered."}, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         try:
@@ -30,8 +21,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
             access_token = tokens['access']
             refresh_token = tokens['refresh']
-
-            seriliazer = UserSerializer(request.user, many=False)
             
             res = Response()
 
@@ -39,22 +28,22 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
             res.set_cookie(
                 key='access_token',
-                value=str(access_token),
+                value=access_token,
                 httponly=True,
                 secure=True,
                 samesite='None',
-                path='/'
+                path='/',
             )
 
             res.set_cookie(
                 key='refresh_token',
-                value=str(refresh_token),
+                value=refresh_token,
                 httponly=True,
                 secure=True,
                 samesite='None',
-                path='/'
+                path='/',
             )
-            res.data.update(tokens)
+
             return res
         
         except Exception as e:
@@ -81,9 +70,9 @@ class CustomTokenRefreshView(TokenRefreshView):
                 key='access_token',
                 value=access_token,
                 httponly=True,
-                secure=False,
+                secure=True,
                 samesite='None',
-                path='/'
+                path='/',
             )
             
             return res
@@ -104,6 +93,14 @@ def logout(request):
     except:
         return Response({'success': False})
 
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def register(request):
+    serializer = UserRegistrationSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

@@ -13,10 +13,11 @@ const REGISTER_COMPANY_URL = `${BASE_URL}company/register/`
 export const login = async (username, password) => {
     try {
         const response = await axios.post(LOGIN_URL,
-            { username, password },   
+            { username:username, password:password },   
             { withCredentials: true }  // Ensures cookies are included
         );
-        return response.data
+
+        return response.data.success
     } catch (error) {
         console.error("Login failed:", error);
         return false; 
@@ -70,12 +71,19 @@ export const get_auctions = async () => {
 }
 
 export const authenticated_user = async () => {
-    const response = await axios.post(AUTHENTICATED_URL, { withCredentials: true });
-    return response.data
+    try {
+        await axios.post(AUTHENTICATED_URL, {}, { withCredentials: true });
+        return true
+    } catch {
+        return false
+    }
 }
 
 export const register = async (username, email, password, user_type) => {
-    const response = await axios.post(REGISTER_URL, { username, email, password, user_type }, { withCredentials: true });
+    const response = await axios.post(REGISTER_URL, 
+        { username, email, password, user_type }, 
+        { withCredentials: true }
+    );
     return response.data;
 }
 

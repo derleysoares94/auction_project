@@ -1,72 +1,63 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { createContext, use, useContext, useEffect, useState } from 'react';
 
-import { authenticated_user, login, logout, register } from '../api/endpoints';
+import { authenticated_user } from '../api/endpoints';
+
+import { login } from '../api/endpoints';
+
+import { register } from '../api/endpoints';
+
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
-    const [user, setUser] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
     const nav = useNavigate();
 
     const get_authenticated_user = async () => {
         try {
-            const user = await authenticated_user();
-            setUser(user);
-        } catch (error) {
-            setUser(null); // If the request fails, set the user to null
+            const success = await authenticated_user();
+            setIsAuthenticated(success)
+        } catch {
+            setIsAuthenticated(false)
         } finally {
-            setLoading(false); // Set loading to false after request completes
-        }
-    };
-
-    const loginUser = async (username, password) => {
-        setLoading(true);
-        try {
-            const user = await login(username, password);
-            setUser(user);
-            nav('/');
-        } catch (error) {
-            if (error.response && error.response.status === 401) {
-                alert('Incorrect username or password');
-            } else {
-                alert('Error logging in');
-            }
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const logoutUser = async () => {
-        await logout();
-        nav('/login')
+            setLoading(false)
+        }   
     }
 
-    const registerUser = async (username, email, password, confirm_password, user_type) => {
+    const login_user = async (username, password) => {
         try {
-            if (password === confirm_password) {
-                await register(username, email, password, user_type)
-                alert('User successfully registered')
-                nav('/login')
+            const success = await login(username, password);
+            if (success) {
+                setIsAuthenticated(true)
+                nav('/')
             }
         } catch {
-            alert('error registering user')
+            setIsAuthenticated(false)
+        }
+    }
+
+    const register_user = async (username, email, password, passwordConfirm, userType) => {
+        if (password === passwordConfirm) {
+            const success = await register(username, email, password, userType);
+            alert('User registered')
+            nav('/login')
+        }else {
+            alert('Passwords do not match')
         }
     }
 
     useEffect(() => {
-        get_authenticated_user();
+        get_authenticated_user()
     }, [window.location.pathname])
 
     return (
-        <AuthContext.Provider value={{ user, loading, loginUser, logoutUser, registerUser }}>
+        <AuthContext.Provider value={{ isAuthenticated, loading, login_user, register_user }}>
             {children}
         </AuthContext.Provider>
-    );
+    )
 }
 
-export const useAuth = () => {
-    return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);
