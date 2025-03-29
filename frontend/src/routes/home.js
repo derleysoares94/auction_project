@@ -18,13 +18,6 @@ const Home = () => {
         fetchAuctions();
     }, [])
 
-    const handleLogout = async  () => {
-        const success = await logout();
-        if (success) {
-            nav('/login')
-        }
-    }
-
     return (
         <VStack>
             <Heading>Welcome back</Heading>
@@ -33,7 +26,6 @@ const Home = () => {
                     return <Text key={auction.id}>{auction.description}</Text>
                 })}
             </VStack>
-            <Button onClick={handleLogout} colorScheme="red">Logout</Button>
         </VStack>
     )
 }

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ChakraProvider, Flex } from '@chakra-ui/react'
 import Login from './routes/login';
 import Home from './routes/home';
+import CreateAuction from './routes/create_auction'
 import { AuthProvider } from './context/useAuth';
 import PrivateRoute from './components/private_route';
 import Register from './routes/register';
@@ -21,6 +22,7 @@ function App() {
               <Route element={<Register />} path='/register' />
 
               <Route path='/' element={<PrivateRoute><Layout><Home /></Layout></PrivateRoute>} />
+              <Route path='/create/auction' element={<PrivateRoute><Layout><CreateAuction /></Layout></PrivateRoute>} />
             </Routes>
           </AuthProvider >
         </Router>
