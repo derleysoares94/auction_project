@@ -105,4 +105,13 @@ def register(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def is_authenticated(request):
-    return Response({"authenticated": True})
+    user = request.user
+    return Response({
+        "authenticated": True,
+        "user": {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "user_type": user.user_type
+        }
+    })

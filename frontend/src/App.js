@@ -11,9 +11,6 @@ import Layout from './components/layout';
 import Cookies from "js-cookie";
 
 function App() {
-
-  const accessToken = Cookies.get('access_token');
-  console.log(accessToken)
   return (
     <ChakraProvider>
       <Flex minH='100vh' w='100%' justifyContent='center' alignItems='center'>

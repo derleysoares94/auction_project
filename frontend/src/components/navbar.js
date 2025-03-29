@@ -1,8 +1,20 @@
 import React from "react";
-import { Box, Flex, IconButton, useDisclosure, Heading, Button } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { 
+    Box, 
+    Flex, 
+    IconButton, 
+    useDisclosure, 
+    Heading, 
+    Button,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuDivider, 
+} from "@chakra-ui/react";
+import { HamburgerIcon, CloseIcon, ChevronDownIcon } from "@chakra-ui/icons";
 
-const Navbar = () => {
+const Navbar = ({ userType }) => {
     const { isOpen, onToggle } = useDisclosure();
     return (
         <Box bg="blue.500" px={4} position="fixed" top="0" left="0" width="100%" zIndex="1000">
@@ -11,6 +23,15 @@ const Navbar = () => {
                     Auction
                 </Heading>
                 <Flex display={{ base: "none", md: "flex" }} gap={4}>
+                    <Menu>
+                        <MenuButton as={Button} variant="link" color="white" rightIcon={<ChevronDownIcon />}>
+                            Auction
+                        </MenuButton>
+                        <MenuList>
+                            {userType === "company" && <MenuItem>Create Auction</MenuItem>}
+                            <MenuItem>Upcoming Auctions</MenuItem>
+                        </MenuList>
+                    </Menu>
                     <Button variant="link" color="white">
                         Home
                     </Button>

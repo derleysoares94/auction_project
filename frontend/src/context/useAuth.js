@@ -1,4 +1,4 @@
-import { createContext, use, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 import { authenticated_user } from '../api/endpoints';
 
@@ -14,12 +14,17 @@ export const AuthProvider = ({ children }) => {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null);
     const nav = useNavigate();
 
     const get_authenticated_user = async () => {
         try {
-            const success = await authenticated_user();
-            setIsAuthenticated(success)
+            const authentication = await authenticated_user();
+            
+            if (authentication.authenticated) {
+                setUser(authentication.user)
+                setIsAuthenticated(true)
+            }
         } catch {
             setIsAuthenticated(false)
         } finally {
@@ -41,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 
     const register_user = async (username, email, password, passwordConfirm, userType) => {
         if (password === passwordConfirm) {
-            const success = await register(username, email, password, userType);
+            await register(username, email, password, userType);
             alert('User registered')
             nav('/login')
         }else {
@@ -54,7 +59,7 @@ export const AuthProvider = ({ children }) => {
     }, [window.location.pathname])
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, loading, login_user, register_user }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, loading, login_user, register_user }}>
             {children}
         </AuthContext.Provider>
     )

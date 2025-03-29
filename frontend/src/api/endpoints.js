@@ -72,8 +72,9 @@ export const get_auctions = async () => {
 
 export const authenticated_user = async () => {
     try {
-        await axios.post(AUTHENTICATED_URL, {}, { withCredentials: true });
-        return true
+        const response = await axios.post(AUTHENTICATED_URL, {}, { withCredentials: true });
+
+        return response.data
     } catch {
         return false
     }
