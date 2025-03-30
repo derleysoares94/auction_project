@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const success = await login(username, password);
             if (success) {
-                setIsAuthenticated(true)
+                get_authenticated_user()
                 nav('/')
             }
         } catch {
