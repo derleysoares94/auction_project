@@ -7,7 +7,6 @@ const AUCTIONS_URL = `${BASE_URL}auction/auctions/`
 const LOGOUT_URL = `${BASE_URL}users/logout/`
 const AUTHENTICATED_URL = `${BASE_URL}users/authenticated/`
 const REGISTER_URL = `${BASE_URL}users/register/`
-const REGISTER_COMPANY_URL = `${BASE_URL}company/register/`
 
 
 export const login = async (username, password) => {
@@ -59,17 +58,6 @@ export const logout = async () => {
     }
 }
 
-export const get_auctions = async () => {
-    try {
-        const response = await axios.get(AUCTIONS_URL,
-            { withCredentials: true }
-        )
-        return response.data
-    } catch (error) {
-        return call_refresh(error, axios.get(AUCTIONS_URL, { withCredentials: true }))
-    }
-}
-
 export const authenticated_user = async () => {
     try {
         const response = await axios.post(AUTHENTICATED_URL, {}, { withCredentials: true });
@@ -81,17 +69,42 @@ export const authenticated_user = async () => {
 }
 
 export const register = async (username, email, password, user_type) => {
-    const response = await axios.post(REGISTER_URL, 
-        { username, email, password, user_type }, 
-        { withCredentials: true }
-    );
-    return response.data;
+    try {
+        const response = await axios.post(REGISTER_URL,
+            { username, email, password, user_type },
+            { withCredentials: true }
+        );
+
+        return response.data;
+    } catch (error) {
+        console.error("Registration failed:", error);
+        return false; 
+    }
+
 }
 
-export const NewCompany = async (companyName, companyEmail, companyPassword) => {
-    const name= companyName
-    const email= companyEmail
-    const password= companyPassword
-    const response = await axios.post(REGISTER_COMPANY_URL, { name, email, password }, { withCredentials: true });
-    return response.data;
+export const new_auction = async (formData) => {
+    try {
+        const response = await axios.post(AUCTIONS_URL, formData, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        return call_refresh(error, axios.get(AUCTIONS_URL, { withCredentials: true }));
+    }
+}
+
+export const get_auctions = async () => {
+    try {
+        const response = await axios.get(AUCTIONS_URL,
+            { withCredentials: true }
+        )
+        return response.data
+    } catch (error) {
+        return call_refresh(error, axios.get(AUCTIONS_URL, { withCredentials: true }))
+    }
 }

@@ -1,10 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-import { authenticated_user } from '../api/endpoints';
-
-import { login } from '../api/endpoints';
-
-import { register } from '../api/endpoints';
+import { register, login, authenticated_user, new_auction } from '../api/endpoints';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -54,12 +50,21 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const create_auction = async (formData) => {
+        try {
+            await new_auction(formData);
+            alert('Auction created')
+        } catch (error) {
+            return alert('Error creating auction')
+        }
+    }
+
     useEffect(() => {
         get_authenticated_user()
     }, [window.location.pathname])
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, loading, login_user, register_user }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, loading, login_user, register_user, create_auction }}>
             {children}
         </AuthContext.Provider>
     )

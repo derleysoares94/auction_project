@@ -3,6 +3,7 @@ from django.db import models
 class Auction(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
+    image = models.ImageField(upload_to='uploads/')
     start_price = models.DecimalField(max_digits=10, decimal_places=2)
     current_price = models.DecimalField(max_digits=10, decimal_places=2)
     start_date = models.DateTimeField()

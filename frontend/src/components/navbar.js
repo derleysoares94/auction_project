@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
-
+import "../css/navbar.css";
 import { logout } from "../api/endpoints";
 
 const Navbar = ({ userType }) => {
@@ -31,7 +31,7 @@ const Navbar = ({ userType }) => {
     };
 
     return (
-        <Box bg="blue.500" px={4} position="fixed" top="0" left="0" width="100%" zIndex="1000">
+        <Box className="navbar">
             <Flex h={16} alignItems="center" justifyContent="space-between">
                 <Heading size="md" color="white">
                     Auction
