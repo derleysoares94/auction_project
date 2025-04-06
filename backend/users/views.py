@@ -1,7 +1,5 @@
 from rest_framework import status
-from rest_framework.permissions import AllowAny
 from django.shortcuts import render
-from rest_framework.views import APIView
 from . serializers import UserSerializer, UserRegistrationSerializer
 
 from rest_framework.decorators import permission_classes, api_view

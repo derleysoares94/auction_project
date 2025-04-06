@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from . models import Auction
 from . serializer import AuctionSerializer
 
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
@@ -20,3 +20,10 @@ class AuctionList(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+    
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def get_auction_by_user(request, user_id):
+    auctions = Auction.objects.filter(user=user_id)
+    auctions_data = list(auctions.values('id', 'title', 'description', 'current_price'))
+    return Response({'auctions': auctions_data})
