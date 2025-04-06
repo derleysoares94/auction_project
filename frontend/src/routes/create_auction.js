@@ -42,16 +42,18 @@ const CreateAuction = () => {
             formData.append('current_price', currentPrice);
             formData.append('start_date', startDate);
             formData.append('end_date', endDate);
+            formData.append('user', user.id);
 
             try {
                 await create_auction(formData);
+                navigate('/upcoming_auctions');
             } catch (error) {
                 console.error('Error:', error);
             }
         } else {
             alert('All fields are required');
         }
-    };
+    }
 
     return (
         <VStack className='container'>
