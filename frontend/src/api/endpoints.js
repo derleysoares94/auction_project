@@ -91,10 +91,12 @@ export const new_auction = async (formData) => {
                 'Content-Type': 'multipart/form-data',
             },
         })
-        console.log(response.data);
         return response.data;
     } catch (error) {
-        return call_refresh(error, axios.get(AUCTIONS_URL, { withCredentials: true }));
+        return call_refresh(error, axios.get(AUCTIONS_URL, formData, {
+            withCredentials: true, headers: {
+                'Content-Type': 'multipart/form-data',
+            }, }));
     }
 }
 

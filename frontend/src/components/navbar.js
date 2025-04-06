@@ -43,7 +43,7 @@ const Navbar = ({ userType }) => {
                         </MenuButton>
                         <MenuList>
                             {userType === "company" && <MenuItem onClick={() => navigate('/create/auction')}>Create Auction</MenuItem>}
-                            <MenuItem onClick={() => navigate('/upcoming-auctions')}>Upcoming Auctions</MenuItem>
+                            <MenuItem onClick={() => navigate('/upcoming_auctions')}>Upcoming Auctions</MenuItem>
                         </MenuList>
                     </Menu>
                     <Button onClick={() => navigate('/')} variant="link" color="white">

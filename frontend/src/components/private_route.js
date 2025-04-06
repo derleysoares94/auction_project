@@ -1,4 +1,4 @@
-import { Heading } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 
 import { useAuth } from "../context/useAuth";
 
@@ -9,7 +9,7 @@ const PrivateRoute = ({ children }) => {
     const nav = useNavigate();
 
     if (loading) {
-        return <Heading>Loading...</Heading>
+        return <Spinner size="xl" />
     }
 
     if(isAuthenticated) {

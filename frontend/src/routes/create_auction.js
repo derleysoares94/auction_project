@@ -1,9 +1,4 @@
 import {
-    Tabs,
-    TabList,
-    TabPanels,
-    Tab,
-    TabPanel,
     FormControl,
     FormLabel,
     Button,
@@ -51,10 +46,10 @@ const CreateAuction = () => {
             try {
                 await create_auction(formData);
             } catch (error) {
-                console.error('Erro ao criar leilão:', error);
+                console.error('Error:', error);
             }
         } else {
-            alert('Por favor, preencha todos os campos');
+            alert('All fields are required');
         }
     };
 
