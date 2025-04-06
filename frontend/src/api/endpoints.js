@@ -4,6 +4,7 @@ const BASE_URL = 'http://127.0.0.1:8000/api/'
 const LOGIN_URL = `${BASE_URL}users/token/`
 const REFRESH_URL = `${BASE_URL}users/token/refresh/`
 const AUCTIONS_URL = `${BASE_URL}auction/auctions/`
+const USER_AUCTIONS_URL = `${BASE_URL}auction/auctions/user/`
 const LOGOUT_URL = `${BASE_URL}users/logout/`
 const AUTHENTICATED_URL = `${BASE_URL}users/authenticated/`
 const REGISTER_URL = `${BASE_URL}users/register/`
@@ -91,7 +92,6 @@ export const new_auction = async (formData) => {
                 'Content-Type': 'multipart/form-data',
             },
         })
-        console.log(response.data)
         return response.data;
     } catch (error) {
         return call_refresh(error, axios.get(AUCTIONS_URL, formData, {
@@ -109,5 +109,16 @@ export const get_auctions = async () => {
         return response.data
     } catch (error) {
         return call_refresh(error, axios.get(AUCTIONS_URL, { withCredentials: true }))
+    }
+}
+
+export const get_user_auctions = async (id) => {
+    try {
+        const response = await axios.get(`${USER_AUCTIONS_URL}${id}/`, 
+            { withCredentials: true }
+        )
+        return response.data
+    } catch (error) {
+        return call_refresh(error, () => axios.get(`${USER_AUCTIONS_URL}${id}/`, { withCredentials: true }))
     }
 }

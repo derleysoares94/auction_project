@@ -21,9 +21,9 @@ class AuctionList(APIView):
             return Response(serializer.data)
         return Response(serializer.errors)
     
-@api_view(['POST'])
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_auction_by_user(request, user_id):
     auctions = Auction.objects.filter(user=user_id)
-    auctions_data = list(auctions.values('id', 'title', 'description', 'current_price'))
-    return Response({'auctions': auctions_data})
+    serializer = AuctionSerializer(auctions, many=True)
+    return Response(serializer.data)
