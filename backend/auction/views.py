@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
 from . models import Auction
 from . serializer import AuctionSerializer
@@ -27,3 +27,13 @@ def get_auction_by_user(request, user_id):
     auctions = Auction.objects.filter(user=user_id)
     serializer = AuctionSerializer(auctions, many=True)
     return Response(serializer.data)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_auction(request, auction_id):
+    auction = get_object_or_404(Auction, id=auction_id)
+    if auction:
+        auction.delete()
+        return Response({"message": "Auction deleted successfully"}, status=200)
+    return Response({"error": "Invalid request method"}, status=400)
+        

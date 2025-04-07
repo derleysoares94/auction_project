@@ -3,12 +3,13 @@ import axios from 'axios'
 const BASE_URL = 'http://127.0.0.1:8000/api/'
 const LOGIN_URL = `${BASE_URL}users/token/`
 const REFRESH_URL = `${BASE_URL}users/token/refresh/`
-const AUCTIONS_URL = `${BASE_URL}auction/auctions/`
-const USER_AUCTIONS_URL = `${BASE_URL}auction/auctions/user/`
 const LOGOUT_URL = `${BASE_URL}users/logout/`
 const AUTHENTICATED_URL = `${BASE_URL}users/authenticated/`
 const REGISTER_URL = `${BASE_URL}users/register/`
 
+const AUCTIONS_URL = `${BASE_URL}auction/auctions/`
+const USER_AUCTIONS_URL = `${BASE_URL}auction/auctions/user/`
+const DELETE_AUCTION_URL = `${BASE_URL}auction/delete-auction/`
 
 export const login = async (username, password) => {
     try {
@@ -120,5 +121,19 @@ export const get_user_auctions = async (id) => {
         return response.data
     } catch (error) {
         return call_refresh(error, () => axios.get(`${USER_AUCTIONS_URL}${id}/`, { withCredentials: true }))
+    }
+}
+
+export const delete_auction = async (auction_id) => {
+    try {
+        const response = await axios.delete(`${DELETE_AUCTION_URL}${auction_id}/`,
+            { withCredentials: true}
+        );
+        if (response.status === 200) {
+            alert("Auction deleted successfully!");
+        }
+    } catch (error) {
+        console.error("Error deleting auction:", error);
+        alert("Failed to delete auction.");
     }
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Heading, Text, VStack, List, ListItem, Spinner } from '@chakra-ui/react';
+import { Box, Heading, Text, VStack, List, ListItem, Spinner, Button } from '@chakra-ui/react';
 import { useAuth } from '../context/useAuth';
-import { get_user_auctions } from "../api/endpoints";
+import { get_user_auctions, delete_auction } from "../api/endpoints";
 
 const UpcomingAuctions = () => {
     const [auctions, setAuctions] = useState([]);
@@ -12,10 +12,21 @@ const UpcomingAuctions = () => {
         const fetchAuctions = async () => {
             const auctions = await get_user_auctions(user.id)
             setAuctions(auctions)
-            setLoading(false);
+            setLoading(false)
         }
         fetchAuctions()
     }, [])
+
+    const handleDelete = async (auction_id) => {
+        const confirmDelete = window.confirm("Are you sure?");
+        if (confirmDelete) {
+            setLoading(true);
+            await delete_auction(auction_id);
+            const auctions = await get_user_auctions(user.id)
+            setAuctions(auctions)
+            setLoading(false);
+        }
+    }
 
     return (
         <Box p={6}>
@@ -25,7 +36,7 @@ const UpcomingAuctions = () => {
             ) : auctions.length > 0 ? (
                 <List spacing={4}>
                         {auctions.map((auction) => (
-                        <ListItem key={auction.id} borderWidth="1px" borderRadius="lg" p={4} boxShadow="md">
+                            <ListItem key={auction.id} position="relative" padding="20px" border="1px solid #ccc" borderRadius="8px" boxShadow="md">
                             <VStack align="start">
                                 <Heading size="md">{auction.title}</Heading>
                                 <Text>
@@ -34,6 +45,16 @@ const UpcomingAuctions = () => {
                                 <Text>
                                         <strong>End:</strong> {new Date(auction.end_date).toLocaleString('en-IE', { dateStyle: 'short' })}
                                 </Text>
+                                <Box
+                                    position="absolute"
+                                    bottom="10px"
+                                    right="10px"
+                                    display="flex"
+                                    gap="10px"
+                                >
+                                    <Button mb="10px" colorScheme="green" mt="20px" w="100%">Edit</Button>
+                                    <Button mb="10px" colorScheme="red" mt="20px" w="100%" onClick={() => handleDelete(auction.id)}>Delete</Button>
+                                </Box>
                             </VStack>
                         </ListItem>
                     ))}
@@ -42,7 +63,7 @@ const UpcomingAuctions = () => {
                 <Text>No upcoming or ongoing auctions.</Text>
             )}
         </Box>
-    );
-};
+    )
+}
 
 export default UpcomingAuctions;
