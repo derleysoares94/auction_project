@@ -3,6 +3,7 @@ import { Box, Heading, Text, VStack, List, ListItem, Spinner, Button, SimpleGrid
 import { useAuth } from '../context/useAuth'
 import { get_user_auctions, delete_auction, get_auctions } from "../api/endpoints"
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2';
 
 const UpcomingAuctions = () => {
     const [auctions, setAuctions] = useState([])
@@ -29,18 +30,33 @@ const UpcomingAuctions = () => {
         fetchAuctions()
     }, [])
 
-    const handleDelete = async (auction_id) => {
-        const confirmDelete = window.confirm("Are you sure?");
-        if (confirmDelete) {
-            setLoading(true);
-            await delete_auction(auction_id);
-            const auctions = await get_user_auctions(user.id)
-            setAuctions(auctions)
-            setLoading(false)
-        }
+    const confirmDelete = async () => {
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'This action cannot be undone.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel',
+        })
+
+        return result.isConfirmed
     }
 
-    // Calcular os itens da página atual
+    const handleDelete = (auction_id) => {
+        confirmDelete().then(async (confirmed) => {
+            if (confirmed) {
+                setLoading(true);
+                await delete_auction(auction_id);
+                const auctions = await get_user_auctions(user.id)
+                setAuctions(auctions)
+                setLoading(false)
+            } else {
+                console.log('User canceled deletion!');
+            }
+        })
+    }
+
     const indexOfLastItem = currentPage * itemsPerPage
     const indexOfFirstItem = indexOfLastItem - itemsPerPage
     const currentAuctions = auctions.slice(indexOfFirstItem, indexOfLastItem)

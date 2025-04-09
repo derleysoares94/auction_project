@@ -25,6 +25,8 @@
     "react-router-dom": "^7.3.0",
     "react-scripts": "^5.0.1",
     "shebang-regex": "^4.0.0",
+    "sweetalert2": "^11.17.2",
+    "toastr": "^2.1.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

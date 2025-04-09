@@ -12,6 +12,8 @@ import { useAuth } from '../context/useAuth';
 import { useNavigate } from 'react-router-dom';
 import MyDropzone from '../components/dropzone';
 import '../css/auction.css';
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
 
 const CreateAuction = () => {
     const { user, isAuthenticated, create_auction } = useAuth();
@@ -51,7 +53,7 @@ const CreateAuction = () => {
                 console.error('Error:', error);
             }
         } else {
-            alert('All fields are required');
+            toastr.error('All fields are required');
         }
     }
 

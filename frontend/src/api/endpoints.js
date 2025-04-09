@@ -1,4 +1,6 @@
 import axios from 'axios'
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
 
 const BASE_URL = 'http://127.0.0.1:8000/api/'
 const LOGIN_URL = `${BASE_URL}users/token/`
@@ -162,10 +164,10 @@ export const delete_auction = async (auction_id) => {
             { withCredentials: true}
         )
         if (response.status === 200) {
-            alert("Auction deleted successfully!");
+            toastr.success("Auction deleted successfully!");
         }
     } catch (error) {
         console.error("Error deleting auction:", error);
-        alert("Failed to delete auction.");
+        toastr.error("Failed to delete auction.");
     }
 }
