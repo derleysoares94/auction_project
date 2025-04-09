@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Heading, Text, VStack, List, ListItem, Spinner, Button } from '@chakra-ui/react';
-import { useAuth } from '../context/useAuth';
-import { get_user_auctions, delete_auction } from "../api/endpoints";
+import React, { useState, useEffect } from 'react'
+import { Box, Heading, Text, VStack, List, ListItem, Spinner, Button } from '@chakra-ui/react'
+import { useAuth } from '../context/useAuth'
+import { get_user_auctions, delete_auction } from "../api/endpoints"
+
+import { useNavigate } from 'react-router-dom'
 
 const UpcomingAuctions = () => {
-    const [auctions, setAuctions] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const { user } = useAuth();
+    const [auctions, setAuctions] = useState([])
+    const [loading, setLoading] = useState(true)
+    const { user } = useAuth()
+    const nav = useNavigate()
 
     useEffect(() => {
         const fetchAuctions = async () => {
@@ -24,7 +27,7 @@ const UpcomingAuctions = () => {
             await delete_auction(auction_id);
             const auctions = await get_user_auctions(user.id)
             setAuctions(auctions)
-            setLoading(false);
+            setLoading(false)
         }
     }
 
@@ -52,7 +55,7 @@ const UpcomingAuctions = () => {
                                     display="flex"
                                     gap="10px"
                                 >
-                                    <Button mb="10px" colorScheme="green" mt="20px" w="100%">Edit</Button>
+                                    <Button mb="10px" colorScheme="green" mt="20px" w="100%" onClick={() => nav(`/update_auction/${auction.id}/`)}>Edit</Button>
                                     <Button mb="10px" colorScheme="red" mt="20px" w="100%" onClick={() => handleDelete(auction.id)}>Delete</Button>
                                 </Box>
                             </VStack>

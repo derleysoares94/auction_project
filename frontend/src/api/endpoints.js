@@ -8,7 +8,9 @@ const AUTHENTICATED_URL = `${BASE_URL}users/authenticated/`
 const REGISTER_URL = `${BASE_URL}users/register/`
 
 const AUCTIONS_URL = `${BASE_URL}auction/auctions/`
+const AUCTIONS_BY_ID_URL = `${BASE_URL}auction/`
 const USER_AUCTIONS_URL = `${BASE_URL}auction/auctions/user/`
+const UPDATE_AUCTION_URL = `${BASE_URL}auction/update/`
 const DELETE_AUCTION_URL = `${BASE_URL}auction/delete-auction/`
 
 export const login = async (username, password) => {
@@ -113,6 +115,17 @@ export const get_auctions = async () => {
     }
 }
 
+export const get_auction_by_id = async (id) => {
+    try {
+        const response = await axios.get(`${AUCTIONS_BY_ID_URL}${id}/`,
+            { withCredentials: true }
+        )
+        return response.data
+    } catch (error) {
+        return call_refresh(error, () => axios.get(`${AUCTIONS_BY_ID_URL}${id}/`, { withCredentials: true }))
+    }
+}
+
 export const get_user_auctions = async (id) => {
     try {
         const response = await axios.get(`${USER_AUCTIONS_URL}${id}/`, 
@@ -124,11 +137,30 @@ export const get_user_auctions = async (id) => {
     }
 }
 
+export const update_auction = async (auction_id, formData) => {
+    try {
+        const response = await axios.put(`${UPDATE_AUCTION_URL}${auction_id}/`, formData, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+        return response.data;
+    } catch (error) {
+        return call_refresh(error, () => axios.put(`${UPDATE_AUCTION_URL}${auction_id}/`, formData, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        }))
+    }
+}
+
 export const delete_auction = async (auction_id) => {
     try {
         const response = await axios.delete(`${DELETE_AUCTION_URL}${auction_id}/`,
             { withCredentials: true}
-        );
+        )
         if (response.status === 200) {
             alert("Auction deleted successfully!");
         }

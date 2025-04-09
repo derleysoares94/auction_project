@@ -1,18 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import '../css/dropzone.css';
 
-const MyDropzone = ({ onImageSelect }) => {
+const MyDropzone = ({ onImageSelect, initialImage }) => {
     const [imagePreview, setImagePreview] = useState(null);
 
-    const onDrop = (acceptedFiles) => {
-        // Gera uma URL temporária para o arquivo carregado
-        const file = acceptedFiles[0];
-        if (file) {
-            onImageSelect(file);
-            setImagePreview(URL.createObjectURL(file));
+    useEffect(() => {
+        if (initialImage) {
+            setImagePreview(typeof initialImage === 'string' ? initialImage : URL.createObjectURL(initialImage));
         }
-    };
+    }, [initialImage])
+
+    const onDrop = (acceptedFiles) => {
+        if (acceptedFiles && acceptedFiles.length > 0) {
+            const file = acceptedFiles[0]
+            setImagePreview(URL.createObjectURL(file))
+            onImageSelect(file)
+        }
+    }
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -27,7 +32,11 @@ const MyDropzone = ({ onImageSelect }) => {
             {/* Exibe a pré-visualização da imagem */}
             {imagePreview && (
                 <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <img src={imagePreview} alt="Preview" style={{ maxWidth: '60px', height: 'auto' }} />
+                    <img
+                        src={imagePreview}
+                        alt="Preview"
+                        style={{ maxWidth: '100px', maxHeight: '200px', objectFit: 'contain' }}
+                    />
                 </div>
             )}
         </div>

@@ -20,13 +20,24 @@ class AuctionList(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_auction_by_id(request, pk):
+    try:
+        auction = Auction.objects.get(id=pk)
+    except Auction.DoesNotExist:
+        return Response({"error": "Auction not found"}, status=status.HTTP_404_NOT_FOUND)
     
+    serializer = AuctionSerializer(auction)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_auction_by_user(request, user_id):
     auctions = Auction.objects.filter(user=user_id)
     serializer = AuctionSerializer(auctions, many=True)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
@@ -44,8 +55,8 @@ def update_auction(request, pk):
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
-def delete_auction(request, auction_id):
-    auction = get_object_or_404(Auction, id=auction_id)
+def delete_auction(request, pk):
+    auction = get_object_or_404(Auction, id=pk)
     if auction:
         auction.delete()
         return Response({"message": "Auction deleted successfully"}, status=status.HTTP_200_OK)
