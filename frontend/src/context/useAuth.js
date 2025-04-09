@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-import { register, login, authenticated_user, new_auction } from '../api/endpoints';
+import { register, login, authenticated_user, new_auction, update_auction } from '../api/endpoints';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -59,12 +59,24 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const auth_update_auction = async (id, formData) => {
+        if (!formData) {
+            return alert('No data to update')
+        }
+        try {
+            await update_auction(id, formData);
+            alert('Auction updated')
+        } catch (error) {
+            return alert('Error updating auction')
+        }
+    }
+
     useEffect(() => {
         get_authenticated_user()
     }, [window.location.pathname])
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, loading, login_user, register_user, create_auction }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, loading, login_user, register_user, create_auction, auth_update_auction }}>
             {children}
         </AuthContext.Provider>
     )

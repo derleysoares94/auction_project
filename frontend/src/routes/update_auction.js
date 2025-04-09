@@ -17,7 +17,7 @@ import { format } from 'date-fns';
 import '../css/auction.css'
 
 const UpdateAuction = () => {
-    const { user, isAuthenticated, create_auction } = useAuth();
+    const { auth_update_auction } = useAuth();
     const navigate = useNavigate();
 
     const [title, setTitle] = useState('')
@@ -44,8 +44,25 @@ const UpdateAuction = () => {
         fetchAuction()
     }, [id])
 
+    const handleUpdate = async (e) => {
+        e.preventDefault()
+
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('description', description);
+        formData.append('start_price', startPrice);
+        formData.append('current_price', currentPrice);
+        formData.append('image', image);
+        formData.append('start_date', startDate);
+        formData.append('end_date', endDate);
+
+        const response = await auth_update_auction(id, formData)
+
+        navigate('/upcoming_auctions')
+    }
+
     return (
-        <VStack className='container' as="form" onSubmit={(e) => e.preventDefault()}>
+        <VStack className='container' as="form" onSubmit={handleUpdate}>
             <Text mb="20px" color="gray.700" fontSize="44px" fontWeight="bold">Update Auction</Text>
             <FormControl mb="20px">
                 <FormLabel>Title</FormLabel>
