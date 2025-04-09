@@ -74,7 +74,7 @@ const Navbar = ({ userType }) => {
                                         Create Auction
                                     </Button>
                                 )}
-                                <Button variant="link" color="white">
+                                <Button variant="link" color="white" onClick={() => navigate('/upcoming_auctions')}>
                                     Upcoming Auctions
                                 </Button>
                             </VStack>
