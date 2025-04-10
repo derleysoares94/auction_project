@@ -6,7 +6,7 @@ import {
     Input,
     Text,
 } from '@chakra-ui/react'
-
+import '../css/auction.css';
 import { useState } from 'react';
 import { useAuth } from '../context/useAuth';
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +28,7 @@ const Login = () => {
     }
 
     return (
-        <VStack minH='500px' w='600px' maxW='600px' justifyContent='start' alignItems='start'>
+        <VStack className='container' justifyContent='start' alignItems='start'>
             <Text mb='20px' color='gray.700' fontSize='44px' fontWeight='bold'>Login</Text>
             <FormControl mb='20px'>
                 <FormLabel>Username</FormLabel>

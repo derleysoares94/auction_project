@@ -8,16 +8,16 @@ const AuctionDetails = () => {
     const { id } = useParams()
     const [auction, setAuction] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [bids, setBids] = useState([]) // Estado para armazenar os lances
-    const [highestBid, setHighestBid] = useState(0) // Estado para o maior lance
-    const [bidValue, setBidValue] = useState('') // Estado para o valor do lance
+    const [bids, setBids] = useState([])
+    const [highestBid, setHighestBid] = useState(0)
+    const [bidValue, setBidValue] = useState('')
     const toast = useToast()
 
     useEffect(() => {
         const fetchAuction = async () => {
             const auction = await get_auction_by_id(id)
             setAuction(auction)
-            setHighestBid(auction.start_price) // Inicializar o maior lance com o preço inicial
+            setHighestBid(auction.start_price)
             setLoading(false)
         }
         fetchAuction()
@@ -35,7 +35,7 @@ const AuctionDetails = () => {
     }
 
     return (
-        <Box className="container" maxW="800px" mx="auto" p={6} boxShadow="lg" borderRadius="md" bg="white">
+        <Box className="container">
             <VStack align="start" spacing={6}>
                 <Heading size="lg" color="teal.500">{auction.title}</Heading>
 

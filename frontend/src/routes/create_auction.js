@@ -59,7 +59,7 @@ const CreateAuction = () => {
 
     return (
         <VStack className='container'>
-            <Text mb="20px" color="gray.700" fontSize="44px" fontWeight="bold">New Auction</Text>
+            <Text mb="20px" color="gray.700" fontSize="40px" fontWeight="bold">New Auction</Text>
             <FormControl mb="20px">
                 <FormLabel>Title</FormLabel>
                 <Input bg="white" onChange={(e) => setTitle(e.target.value)} value={title} type="text" placeholder="Title" />
