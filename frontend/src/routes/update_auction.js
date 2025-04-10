@@ -58,7 +58,9 @@ const UpdateAuction = () => {
 
         const response = await auth_update_auction(id, formData)
 
-        navigate('/upcoming_auctions')
+        if (response) {
+            navigate('/upcoming_auctions')
+        }
     }
 
     return (
