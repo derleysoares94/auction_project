@@ -33,10 +33,13 @@ const Navbar = ({ userType }) => {
     return (
         <Box className="navbar">
             <Flex h={16} alignItems="center" justifyContent="space-between">
-                <Heading size="md" color="white">
+                <Heading size="md" color="white" onClick={() => navigate('/')} style={{ cursor: 'pointer' }} >
                     Auction
                 </Heading>
                 <Flex display={{ base: "none", md: "flex" }} gap={4}>
+                    <Button onClick={() => navigate('/')} variant="link" color="white">
+                        Home
+                    </Button>
                     <Menu>
                         <MenuButton as={Button} variant="link" color="white" rightIcon={<ChevronDownIcon />}>
                             Auction
@@ -46,9 +49,6 @@ const Navbar = ({ userType }) => {
                             <MenuItem onClick={() => navigate('/upcoming_auctions')}>Upcoming Auctions</MenuItem>
                         </MenuList>
                     </Menu>
-                    <Button onClick={() => navigate('/')} variant="link" color="white">
-                        Home
-                    </Button>
                     <Button variant="link" color="white" onClick={handleLogout}>
                         Log out
                     </Button>
@@ -64,6 +64,9 @@ const Navbar = ({ userType }) => {
             <Collapse in={isOpen} animateOpacity>
                 <Box pb={4} display={{ md: "none" }}>
                     <VStack align="start" spacing={2}>
+                        <Button onClick={() => navigate('/')} variant="link" color="white">
+                            Home
+                        </Button>
                         <Button variant="link" color="white" onClick={onAuctionToggle}>
                             Auction <ChevronDownIcon />
                         </Button>
@@ -79,9 +82,6 @@ const Navbar = ({ userType }) => {
                                 </Button>
                             </VStack>
                         </Collapse>
-                        <Button onClick={() => navigate('/')} variant="link" color="white">
-                            Home
-                        </Button>
                         <Button variant="link" color="white" onClick={handleLogout}>
                             Log out
                         </Button>

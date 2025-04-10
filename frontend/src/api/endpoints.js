@@ -15,6 +15,8 @@ const USER_AUCTIONS_URL = `${BASE_URL}auction/auctions/user/`
 const UPDATE_AUCTION_URL = `${BASE_URL}auction/update/`
 const DELETE_AUCTION_URL = `${BASE_URL}auction/delete-auction/`
 
+const COMPANIES_URL = `${BASE_URL}users/companies/`
+
 export const login = async (username, password) => {
     try {
         const response = await axios.post(LOGIN_URL,
@@ -169,5 +171,16 @@ export const delete_auction = async (auction_id) => {
     } catch (error) {
         console.error("Error deleting auction:", error);
         toastr.error("Failed to delete auction.");
+    }
+}
+
+export const get_companies = async () => {
+    try {
+        const response = await axios.get(COMPANIES_URL,
+            { withCredentials: true }
+        )
+        return response.data
+    } catch (error) {
+        return call_refresh(error, () => axios.get(COMPANIES_URL, { withCredentials: true }))
     }
 }

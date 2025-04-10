@@ -1,6 +1,7 @@
 from rest_framework import status
 from django.shortcuts import render
 from . serializers import UserSerializer, UserRegistrationSerializer
+from . models import CustomUser
 
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -113,3 +114,10 @@ def is_authenticated(request):
             "user_type": user.user_type
         }
     })
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def companies(request):
+    companies = CustomUser.objects.filter(user_type='company')
+    serializer = UserSerializer(companies, many=True)
+    return Response(serializer.data)
